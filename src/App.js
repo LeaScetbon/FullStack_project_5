@@ -1,43 +1,61 @@
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useState } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./Login";
 import ProtectedRoute from "./ProtectedRoute";
 import Navbar from "./Navbar";
-import Home from "./pages/Home";
+import Info from "./pages/Info";
+import Todos from "./pages/Todos";
+import Posts from "./pages/Posts";
+import Albums from "./pages/Albums";
 
 function App() {
-  const [user, setUser] = useState(null);
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="login" element={<Login setUser={setUser} />} />
+          <Route path="/" element={<Navigate to="/login" />} />
+          <Route path="login" element={<Login />} />
 
           <Route
             path="/"
             element={
               <ProtectedRoute>
-                <Navbar  />
+                <Navbar />
               </ProtectedRoute>
             }
           >
             <Route
-              path="home"
+              path="info"
               element={
-                <ProtectedRoute >
-                  <Home  />
+                <ProtectedRoute>
+                  <Info />
                 </ProtectedRoute>
               }
             />
-            {/* <Route
-              path="todo"
+            <Route
+              path="todos"
               element={
-                <ProtectedRoute user={user}>
-                  <TodoPage user={user} />
+                <ProtectedRoute>
+                  <Todos />
                 </ProtectedRoute>
               }
-            /> */}
+            />
+            <Route
+              path="posts"
+              element={
+                <ProtectedRoute>
+                  <Posts />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="albums"
+              element={
+                <ProtectedRoute>
+                  <Albums />
+                </ProtectedRoute>
+              }
+            />
           </Route>
         </Routes>
       </BrowserRouter>

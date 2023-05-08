@@ -5,18 +5,40 @@ function Navbar() {
     <>
       <nav className="navbar">
         <NavLink
-          to="/home"
+          to="/info"
           className={({ isActive }) => (isActive ? "link active" : "link")}
         >
-          Home
+          Info
         </NavLink>
-        <br/>
+        <br />
         <NavLink
           to="/login"
           className={({ isActive }) => (isActive ? "link active" : "link")}
         >
-           Logout
+          Logout
         </NavLink>
+        <br />
+        <NavLink
+          to="/todos"
+          className={({ isActive }) => (isActive ? "link active" : "link")}
+        >
+          Todos
+        </NavLink>
+        <br />
+        <NavLink
+          to="/posts"
+          className={({ isActive }) => (isActive ? "link active" : "link")}
+        >
+          Posts
+        </NavLink>
+        <br />
+        <NavLink
+          to="/albums"
+          className={({ isActive }) => (isActive ? "link active" : "link")}
+        >
+          Albums
+        </NavLink>
+        <br />
       </nav>
       <Outlet />
     </>
