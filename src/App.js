@@ -1,33 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
-import ReactDOM from "react-dom/client";
+import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useState } from "react";
 import Login from "./Login";
+import ProtectedRoute from "./ProtectedRoute";
+import Navbar from "./Navbar";
+import Home from "./pages/Home";
 
 function App() {
+  const [user, setUser] = useState(null);
   return (
     <div className="App">
       <BrowserRouter>
-      <Routes>
-        <Route path="login" element={<Login />} />
-        <Route
-            path='home'
+        <Routes>
+          <Route path="login" element={<Login setUser={setUser} />} />
+
+          <Route
+            path="/"
             element={
               <ProtectedRoute user={user}>
-                <Home user={user} />
+                <Navbar user={user} />
               </ProtectedRoute>
             }
-          />
-           <Route
-            path="home/todo"
-            element={
-              <ProtectedRoute user={user}>
-                <TodoPage user={user} />
-              </ProtectedRoute>
-            }
-          />
-      </Routes>
-    </BrowserRouter> 
+          >
+            <Route
+              path="home"
+              element={
+                <ProtectedRoute user={user}>
+                  <Home user={user} />
+                </ProtectedRoute>
+              }
+            />
+            {/* <Route
+              path="todo"
+              element={
+                <ProtectedRoute user={user}>
+                  <TodoPage user={user} />
+                </ProtectedRoute>
+              }
+            /> */}
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
