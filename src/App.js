@@ -17,16 +17,16 @@ function App() {
           <Route
             path="/"
             element={
-              <ProtectedRoute user={user}>
-                <Navbar user={user} />
+              <ProtectedRoute>
+                <Navbar  />
               </ProtectedRoute>
             }
           >
             <Route
               path="home"
               element={
-                <ProtectedRoute user={user}>
-                  <Home user={user} />
+                <ProtectedRoute >
+                  <Home  />
                 </ProtectedRoute>
               }
             />

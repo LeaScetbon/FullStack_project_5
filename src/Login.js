@@ -6,15 +6,37 @@ function Login({ setUser }) {
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
+  
+  if (localStorage.length !== 0){
+    localStorage.clear();}
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!name || !password) {
       return;
     }
-    setUser({ name: name, password: password });
-    navigate("/home");
+    try {
+        const response = await fetch("https://jsonplaceholder.typicode.com/users");
+        if (!response.ok) {
+          throw new Error("Authentication failed");
+        }
+        const users = await response.json();
+        const user = users.find((user) => user.username === name && user.address.geo.lat.slice(-4) === password);
+        if (!user) {
+          throw new Error("Invalid username or password");
+        }
+        setUser({ name: name, password: password });;
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        console.log(localStorage.getItem("currentUser"))
+
+        navigate("/home");
+      } catch (error) {
+        console.error(error);
+        alert("Invalid username or password");
+      }
+    
   };
+  
 
   return (
     <section className="section">

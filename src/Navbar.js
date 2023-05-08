@@ -1,6 +1,6 @@
 import { NavLink, Outlet } from "react-router-dom";
 
-function Navbar({ user }) {
+function Navbar() {
   return (
     <>
       <nav className="navbar">
@@ -9,6 +9,13 @@ function Navbar({ user }) {
           className={({ isActive }) => (isActive ? "link active" : "link")}
         >
           Home
+        </NavLink>
+        <br/>
+        <NavLink
+          to="/login"
+          className={({ isActive }) => (isActive ? "link active" : "link")}
+        >
+           Logout
         </NavLink>
       </nav>
       <Outlet />
