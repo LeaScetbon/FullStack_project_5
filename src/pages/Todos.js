@@ -46,6 +46,9 @@ function Todos() {
       case "doneOrNot":
         sortedTodos.sort((a, b) => (a.completed ? 1 : -1));
         break;
+      case "by id":
+        sortedTodos.sort((a, b) => a.id - b.id);
+        break;
       default:
         return sortedTodos;
     }
@@ -58,7 +61,7 @@ function Todos() {
     <div>
         Sort by:
         <select value={sortedBy} onChange={sortTodos}>
-          
+          <option value="by id">By id</option>
           <option value="alphabetical">Alphabetical</option>
           <option value="random">Random</option>
           <option value="doneOrNot">Completed</option>
