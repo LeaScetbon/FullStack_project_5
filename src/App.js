@@ -7,6 +7,7 @@ import Info from "./pages/Info";
 import Todos from "./pages/Todos";
 import Posts from "./pages/Posts";
 import Albums from "./pages/Albums";
+import AlbumPhotos from "./pages/AlbumPhotos";
 
 function App() {
   return (
@@ -53,6 +54,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Albums />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/albums/:albumId"
+              element={
+                <ProtectedRoute>
+                  <AlbumPhotos />
                 </ProtectedRoute>
               }
             />
