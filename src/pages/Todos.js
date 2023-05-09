@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 
 function Todos() {
   const [todos, setTodos] = useState([]);
+  const [sortedBy, setSortedBy] = useState("random");
   const navigate = useNavigate();
  
   useEffect(() => {
@@ -28,12 +29,42 @@ function Todos() {
     setTodos(updatedTodos);
     localStorage.setItem("todos", JSON.stringify(updatedTodos));
   };
+  const sortedTodos = [...todosOfUser];
+
+  const sortTodos = (event) => {
+    setSortedBy(event.target.value);
+  };
+
+
+    switch (sortedBy) {
+      case "random":
+        sortedTodos.sort(() => Math.random() - 0.5);
+        break;
+      case "alphabetical":
+        sortedTodos.sort((a, b) => a.title.localeCompare(b.title));
+        break;
+      case "doneOrNot":
+        sortedTodos.sort((a, b) => (a.completed ? 1 : -1));
+        break;
+      default:
+        return sortedTodos;
+    }
+  
 
   return (
     
     <section className="section">
     <h4>Todos</h4>
-    {todosOfUser.map((todo) => (
+    <div>
+        Sort by:
+        <select value={sortedBy} onChange={sortTodos}>
+          
+          <option value="alphabetical">Alphabetical</option>
+          <option value="random">Random</option>
+          <option value="doneOrNot">Completed</option>
+        </select>
+      </div>
+    {sortedTodos.map((todo) => (
       <div key={todo.id}>
         <input
           type="checkbox"
