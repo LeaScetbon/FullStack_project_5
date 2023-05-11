@@ -9,6 +9,7 @@ import Posts from "./pages/Posts";
 import Albums from "./pages/Albums";
 import AlbumPhotos from "./pages/AlbumPhotos";
 
+
 function App() {
   return (
     <div className="App">
@@ -66,7 +67,11 @@ function App() {
               }
             />
           </Route>
+         
+         
+            
         </Routes>
+        
       </BrowserRouter>
     </div>
   );
