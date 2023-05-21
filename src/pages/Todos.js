@@ -6,18 +6,24 @@ function Todos() {
   const [todos, setTodos] = useState([]);
   const [sortedBy, setSortedBy] = useState("random");
   const navigate = useNavigate();
+// .then((data) =>
+//setAlbums(data.filter((album) => album.userId === user.id))
+//)
+useEffect(() => {
+  fetch("https://jsonplaceholder.typicode.com/todos")
+    .then((response) => response.json())
+    .then((data) => {
+      const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+      const filteredTodos = data.filter((todo) => todo.userId === currentUser.id);
+      setTodos(filteredTodos);
+    })
+    .catch((error) => {
+      console.error("Error fetching todos:", error);
+      navigate("/error");
+    });
+}, []);
 
-  useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/todos")
-      .then((response) => response.json())
-      .then((data) => setTodos(data))
-      .catch((error) => {
-        console.error("Error fetching todos:", error);
-        navigate("/error");
-      });
-  }, []);
-
-  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+ // const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
   const handleChangeTodo = (todoId) => {
     const updatedTodos = todos.map((todo) => {
@@ -32,11 +38,11 @@ function Todos() {
   };
 
   const notCompletedTodos = todos.filter(
-    (todo) => todo.userId === currentUser.id && !todo.completed
+    (todo) =>  !todo.completed
   );
 
   const completedTodos = todos.filter(
-    (todo) => todo.userId === currentUser.id && todo.completed
+    (todo) =>  todo.completed
   );
 
   const sortTodos = (event) => {

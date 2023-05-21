@@ -12,16 +12,14 @@ function Posts() {
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/posts")
       .then((response) => response.json())
-      .then((data) => setPosts(data))
+      .then((data) => setPosts(data.filter((post) => post.userId === JSON.parse(localStorage.getItem("currentUser")).id)))
       .catch((error) => {
         console.error("Error fetching todos:", error);
         navigate("/error");
       });
   }, []);
 
-  const postsOfUser = posts.filter(
-    (post) => post.userId === JSON.parse(localStorage.getItem("currentUser")).id
-  );
+ 
 
   const handleComments = async (postId) => {
     if (IdPost === postId) {
@@ -45,7 +43,7 @@ function Posts() {
   return (
     <section className="section posts-container">
   
-  {postsOfUser.map((post) => (
+  {posts.map((post) => (
   <div className={styles["post-card"]} key={post.id}>
     <div className={styles["post-header"]}>
       <h5>Title: {post.title}</h5>
