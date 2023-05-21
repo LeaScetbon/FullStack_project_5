@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-
 function Login() {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -18,16 +17,14 @@ function Login() {
       return;
     }
     try {
-      const response = await fetch(
-        "https://jsonplaceholder.typicode.com/users"
-      );
+      let url = `https://jsonplaceholder.typicode.com/users?username=${name}`;
+      const response = await fetch(url);
       if (!response.ok) {
         throw new Error("Authentication failed");
       }
       const users = await response.json();
       const user = users.find(
-        (user) =>
-          user.username === name && user.address.geo.lat.slice(-4) === password
+        (user) => user.address.geo.lat.slice(-4) === password
       );
       if (!user) {
         throw new Error("Invalid username or password");

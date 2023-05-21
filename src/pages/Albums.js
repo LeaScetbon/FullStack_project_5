@@ -7,11 +7,9 @@ function Albums() {
   const user = JSON.parse(localStorage.getItem("currentUser"));
 
   useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/albums")
+    fetch(`https://jsonplaceholder.typicode.com/albums?userId=${user.id}`)
       .then((response) => response.json())
-      .then((data) =>
-        setAlbums(data.filter((album) => album.userId === user.id))
-      )
+      .then((data) => setAlbums(data))
       .catch((error) => {
         console.error("Error fetching albums:", error);
       });
@@ -25,23 +23,12 @@ function Albums() {
             to={`/albums/${album.id}`}
             state={{ title: album.title }}
             className={styles.albumLink}
-            // activeClassName={styles.activeLink}
           >
             {album.title}
           </NavLink>
         </div>
       ))}
     </div>
-
-    // <div>
-    //   {albums.map((album) => (
-    //     <div key={album.id}>
-    //       <NavLink to={`/albums/${album.id}`} state={{ title: album.title }}>
-    //         {album.title}
-    //       </NavLink>
-    //     </div>
-    //   ))}
-    // </div>
   );
 }
 export default Albums;
