@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
+
 function Login() {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -43,7 +44,7 @@ function Login() {
   };
 
   return (
-    <section className="section">
+    <section className="section -container">
       <form className="form" onSubmit={handleSubmit}>
         <h5>login</h5>
         <div className="form-row">
