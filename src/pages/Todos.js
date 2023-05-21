@@ -1,11 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import styles from "./Todos.module.css";
 
 function Todos() {
   const [todos, setTodos] = useState([]);
   const [sortedBy, setSortedBy] = useState("random");
   const navigate = useNavigate();
- 
+
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/todos")
       .then((response) => response.json())
@@ -15,11 +16,11 @@ function Todos() {
         navigate("/error");
       });
   }, []);
-  
-  const todosOfUser = todos.filter((todo) => todo.userId === JSON.parse(localStorage.getItem("currentUser")).id);
+
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
   const handleChangeTodo = (todoId) => {
-    const updatedTodos = todosOfUser.map((todo) => {
+    const updatedTodos = todos.map((todo) => {
       if (todo.id === todoId) {
         return { ...todo, completed: !todo.completed };
       } else {
@@ -29,56 +30,79 @@ function Todos() {
     setTodos(updatedTodos);
     localStorage.setItem("todos", JSON.stringify(updatedTodos));
   };
-  const sortedTodos = [...todosOfUser];
+
+  const notCompletedTodos = todos.filter(
+    (todo) => todo.userId === currentUser.id && !todo.completed
+  );
+
+  const completedTodos = todos.filter(
+    (todo) => todo.userId === currentUser.id && todo.completed
+  );
 
   const sortTodos = (event) => {
-    setSortedBy(event.target.value);
+    const sortBy = event.target.value;
+    setSortedBy(sortBy);
   };
 
-
+  const sortAndFilterTodos = (todoList) => {
     switch (sortedBy) {
       case "random":
-        sortedTodos.sort(() => Math.random() - 0.5);
-        break;
+        return todoList.sort(() => Math.random() - 0.5);
       case "alphabetical":
-        sortedTodos.sort((a, b) => a.title.localeCompare(b.title));
-        break;
-      case "doneOrNot":
-        sortedTodos.sort((a, b) => (a.completed ? 1 : -1));
-        break;
+        return todoList.sort((a, b) => a.title.localeCompare(b.title));
       case "by id":
-        sortedTodos.sort((a, b) => a.id - b.id);
-        break;
+        return todoList.sort((a, b) => a.id - b.id);
       default:
-        return sortedTodos;
+        return todoList;
     }
-  
+  };
 
   return (
-    
-    <section className="section">
-    <h4>Todos</h4>
-    <div>
+    <section className={styles["todos-select"]}>
+      <div>
         Sort by:
         <select value={sortedBy} onChange={sortTodos}>
           <option value="by id">By id</option>
           <option value="alphabetical">Alphabetical</option>
           <option value="random">Random</option>
-          <option value="doneOrNot">Completed</option>
         </select>
       </div>
-    {sortedTodos.map((todo) => (
-      <div key={todo.id}>
-        <input
-          type="checkbox"
-          checked={todo.completed}
-          onChange={() => handleChangeTodo(todo.id)}
-        />
-        <label>{todo.title}</label>
-      </div>
-    ))}
-  </section>
-  );
-}
+      <br />
+      <br />
+      <h4>Not Completed</h4>
+      {sortAndFilterTodos(notCompletedTodos).map((todo) => (
+        <div className={styles["todos-item"]} key={todo.id}>
+          <div className={styles["todo-case"]}>
+            <input
+              className={styles["todos-checkbox"]}
+              type="checkbox"
+              checked={todo.completed}
+              onChange={() => handleChangeTodo(todo.id)}
+            />
+            <label className={styles["todos-label"]}>{todo.title}</label>
+          </div>
+        </div>
+      ))}
+      <h4>Completed</h4>
+      {sortAndFilterTodos(completedTodos).map((todo) => (
+        <div className={styles["todos-item"]} key={todo.id}>
+          <div className={styles["todo-case"]}>
+            <input
+              className={styles["todos-checkbox"]}
+              type="checkbox"
+              checked={todo.completed}
+              onChange={() => handleChangeTodo(todo.id)}
+            />
+            <label className={styles["todos-label"]}>{todo.title}</label>
+          </div>
+        </div>
+      ))}
+      
+      
+      </section>
+    );
+  }
+  
+  
 
 export default Todos;

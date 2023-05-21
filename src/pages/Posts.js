@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-
+import styles from "./Posts.module.css";;
 
 function Posts() {
   const [posts, setPosts] = useState([]);
@@ -24,41 +24,49 @@ function Posts() {
   );
 
   const handleComments = async (postId) => {
-    setIdPOst(postId);
-    try {
-      const response = await fetch(
-        `https://jsonplaceholder.typicode.com/posts/${postId}/comments`
-      );
-      const comments = await response.json();
-      setComments(comments);
-    } catch (error) {
-      console.error("Error fetching comments:", error);
+    if (IdPost === postId) {
+      setIdPOst(null);
+      setComments([]);
     }
+    else{ 
+      setIdPOst(postId);
+      try {
+        const response = await fetch(
+          `https://jsonplaceholder.typicode.com/posts/${postId}/comments`
+        );
+        const comments = await response.json();
+        setComments(comments);
+      } catch (error) {
+        console.error("Error fetching comments:", error);
+      }}
+   
   };
 
   return (
-    <section className="section">
-      <h4>Posts</h4>
-      {postsOfUser.map((post) => (
-        <div key={post.id}>
-          <label>
-           Title: {post.title}{" "}
-            <button onClick={() => setIsBoldId(post.id)}>Bold</button>
-          </label>
-          <p style={{ fontWeight: isBoldId === post.id ? "bold" : "normal" }}>{post.body}</p>
-          <button onClick={() => handleComments(post.id) }>See the comments</button>
-          {IdPost === post.id && (
-            <ul>
-              {comments.map((comment) => (
-                <li key={comment.id}>
-                  <h5>{comment.name}</h5>
-                  <p>{comment.body}</p>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      ))}
+    <section className="section posts-container">
+  
+  {postsOfUser.map((post) => (
+  <div className={styles["post-card"]} key={post.id}>
+    <div className={styles["post-header"]}>
+      <h5>Title: {post.title}</h5>
+      <button onClick={() => setIsBoldId(post.id)}>Bold</button>
+    </div>
+    <p style={{ fontWeight: isBoldId === post.id ? "bold" : "normal" }}>{post.body}</p>
+    <button onClick={() => handleComments(post.id)}>
+      {IdPost === post.id ? "Hide the comments" : "See the comments"}
+    </button>
+    {IdPost === post.id && (
+      <ul>
+        {comments.map((comment) => (
+          <li key={comment.id}>
+            <h6>{comment.name}</h6>
+            <p>{comment.body}</p>
+          </li>
+        ))}
+      </ul>
+    )}
+  </div>
+))}
     </section>
   );
 }
