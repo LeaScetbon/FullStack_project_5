@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import styles from "./AlbumPhotos.module.css";
 
 function AlbumPhotos() {
@@ -9,11 +8,23 @@ function AlbumPhotos() {
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
   const [endOfAlbum, setEndOfAlbum] = useState(false);
   const [endOfSet, setEendOfSet] = useState(false);
+  const [title, setTitle] = useState("");
 
-  const location = useLocation();
-  const { title } = location.state;
+  const navigate = useNavigate();
   const { albumId } = useParams();
   const limit = 10;
+
+  useEffect(() => {
+    let url = `https://jsonplaceholder.typicode.com/albums?id=${albumId}`;
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => setTitle(data[0].title))
+      .catch((error) => {
+        console.error("Error fetching album id:", error);
+        navigate("/error");
+        return [];
+      });
+  }, []);
 
   useEffect(() => {
     let url = `https://jsonplaceholder.typicode.com/photos?albumId=${albumId}&_start=${startIndex}&_limit=${limit}`;
@@ -32,6 +43,7 @@ function AlbumPhotos() {
       })
       .catch((error) => {
         console.error("Error fetching photos:", error);
+        navigate("/error");
         return [];
       });
   }, [startIndex]);

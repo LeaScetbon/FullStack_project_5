@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import styles from "./Login.module.css";
 
 function Login() {
   const [name, setName] = useState("");
@@ -41,35 +42,31 @@ function Login() {
   };
 
   return (
-    <section className="section -container">
-      <form className="form" onSubmit={handleSubmit}>
-        <h5>login</h5>
-        <div className="form-row">
-          <label htmlFor="name" className="form-label">
-            name
-          </label>
+    <section className={styles.section}>
+      <form className={styles.form} onSubmit={handleSubmit}>
+        <h5>LOGIN</h5>
+        <div className={styles["form-row"]}>
           <input
             type="text"
-            className="form-input"
+            placeholder="Username"
+            className={styles["form-input"]}
             id="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
         </div>
-        <div className="form-row">
-          <label htmlFor="password" className="form-label">
-            password
-          </label>
+        <div className={styles["form-row"]}>
           <input
             type="password"
-            className="form-input"
+            placeholder="Password"
+            className={styles["form-input"]}
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <button type="submit" className="btn btn-block">
-          login
+        <button type="submit" className={styles.btn}>
+          LOGIN
         </button>
       </form>
     </section>

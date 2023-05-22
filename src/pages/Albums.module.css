@@ -24,9 +24,9 @@
   }
   
   .albumLink:hover {
-    color: #0080ff;
+    color: #075a4cc5;
   }
   
-  .activeLink {
+  /* .activeLink {
     color: #ff5500;
-  }
+  } */

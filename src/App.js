@@ -8,7 +8,7 @@ import Todos from "./pages/Todos";
 import Posts from "./pages/Posts";
 import Albums from "./pages/Albums";
 import AlbumPhotos from "./pages/AlbumPhotos";
-
+import Error from "./pages/Error";
 
 function App() {
   return (
@@ -66,12 +66,9 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route path="*" element={<Error />} />
           </Route>
-         
-         
-            
         </Routes>
-        
       </BrowserRouter>
     </div>
   );

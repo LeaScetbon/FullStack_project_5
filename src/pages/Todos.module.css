@@ -31,3 +31,21 @@
     padding: 5px 10px;
     font-size: 20px;
   }
+
+  select{
+    margin-left: 20px;
+    padding: 10px;
+  }
+
+  .lists{
+    display: flex;
+    justify-content: center;
+  }
+
+  .lists h4{
+    color: #075a4cc5;
+  }
+
+  .todos-list{
+    margin: 10px 40px;
+  }
